@@ -1,0 +1,90 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>bdh</title>
+
+		<script src="blockly_compressed.js"></script>
+		<script src="blocks_compressed.js"></script>
+
+		<script src="msg/js/en.js"></script>
+	</head>
+
+	<body>
+		<div id="blocklyArea", style="height: 95vh">
+			<div id="blocklyDiv" style="position: absolute"></div>
+		</div>
+
+		<xml id="toolbox" style="display: none">
+			<category name="Control" colour="170" expanded="true">
+				<block type="controls_if"></block>
+				<block type="controls_repeat_ext"></block>
+				<block type="controls_whileUntil"></block>
+				<block type="controls_for"></block>
+			</category>
+			<category name="Logic" colour="150">
+				<block type="logic_compare"></block>
+				<block type="logic_operation"></block>
+				<block type="logic_boolean"></block>
+			</category>
+			<category name="Math" colour="129">
+				<block type="math_number"></block>
+				<block type="math_arithmetic"></block>
+			</category>
+			<category name="Text" colour="110">
+				<block type="text"></block>
+				<block type="text_print"></block>
+			</category>
+
+			<sep></sep>
+			<category name="Variables" custom="VARIABLE"  colour="330"></category>
+			<category name="Functions" custom="PROCEDURE" colour="290"></category>
+		</xml>
+
+		<script>
+			var area = document.getElementById('blocklyArea');
+			var div  = document.getElementById('blocklyDiv');
+			var workspace = Blockly.inject('blocklyDiv', {
+				toolbox: document.getElementById('toolbox'),
+				grid: {
+					spacing: 20,
+					length:   1,
+					color: '#ddd',
+					snap: true
+				},
+				oneBasedIndex: false,
+				zoom: {
+					controls: true,
+					wheel:    true,
+
+				}
+			});
+
+			var resize = (e) => {
+				setTimeout(() => {
+					// Compute dimensions of area.
+					var x = 0;
+					var y = 0;
+					var el = area;
+					do {
+						x += el.offsetLeft;
+						y += el.offsetRight;
+						el = el.offsetParent;
+					} while (el);
+
+					// Position div over area.
+					div.style.left = x + 'px';
+					div.style.top  = y + 'px';
+					div.style.width = area.offsetWidth + 'px';
+					div.style.height = area.offsetHeight + 'px';
+				}, 200);
+			};
+
+			window.addEventListener('resize', resize, false);
+			resize();
+
+			Blockly.svgResize(workspace);
+		</script>
+	</body>
+</html>
+
